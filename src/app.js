@@ -198,3 +198,29 @@ sourcePromise$.subscribe(
         console.log('completed');
     }
 );
+
+
+// interval
+const interval$ = Rx.Observable.interval(1000);
+
+// interval$.subscribe(x => console.log(x));
+
+// timer
+const timer$ = Rx.Observable.timer(1000, 1000)
+                .take(5);
+
+timer$.subscribe(
+    x => console.log(x),
+    err => console.log(err),
+    () => console.log('completed')
+);
+
+
+// range
+const range$ = Rx.Observable.range(100, 20);
+
+range$.subscribe(
+    x => console.log(x),
+    err => console.log(err),
+    () => console.log('completed')
+);
