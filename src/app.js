@@ -274,10 +274,10 @@ Rx.Observable.interval(1000)
     .take(25)
     .subscribe(x => console.log(x));
 
-    const source1$ = Rx.Observable.interval(1000).map(x => 'Merge1: ' + x);
-    const source2$ = Rx.Observable.interval(500).map(x => 'Merge2: ' + x);
+const source1$ = Rx.Observable.interval(1000).map(x => 'Merge1: ' + x);
+const source2$ = Rx.Observable.interval(500).map(x => 'Merge2: ' + x);
 
-    Rx.Observable.merge(source1$, source2$)
+Rx.Observable.merge(source1$, source2$)
     .take(25)
     .subscribe(x => console.log(x));
 
@@ -286,4 +286,31 @@ const source3$ = Rx.Observable.range(0, 5).map(x => 'Source 1: ' + x);
 const source4$ = Rx.Observable.range(5, 5).map(x => 'Source 2: ' + x);
 
 Rx.Observable.concat(source3$, source4$)
-.subscribe(x => console.log(x));
+    .subscribe(x => console.log(x));
+
+
+// mergeMap
+Rx.Observable.of('Hello')
+    .subscribe(v => {
+        Rx.Observable.of(v + ' Everyone')
+            .subscribe(x => console.log(x));
+    });
+
+Rx.Observable.of('Hello')
+    .mergeMap(v => {
+        return Rx.Observable.of(v + ' Everyone');
+    }).subscribe(x => console.log(x));
+
+// switchMap
+const sourceS$ = Rx.Observable.fromEvent($('#input'), 'keyup')
+    .map(e => e.target.value)
+    .switchMap(v => {
+        return Rx.Observable.fromPromise(getUser(v));
+    });
+
+
+sourceS$.subscribe(
+    v => {
+        console.error(v.data.name);
+    }
+);
