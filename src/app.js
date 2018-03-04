@@ -176,7 +176,7 @@ promise$.subscribe(
     }
 );
 
-function getUser(username){
+function getUser(username) {
     return $.ajax(
         {
             url: 'https://api.github.com/users/' + username,
@@ -207,7 +207,7 @@ const interval$ = Rx.Observable.interval(1000);
 
 // timer
 const timer$ = Rx.Observable.timer(1000, 1000)
-                .take(5);
+    .take(5);
 
 timer$.subscribe(
     x => console.log(x),
@@ -220,6 +220,44 @@ timer$.subscribe(
 const range$ = Rx.Observable.range(100, 20);
 
 range$.subscribe(
+    x => console.log(x),
+    err => console.log(err),
+    () => console.log('completed')
+);
+
+// map
+const mapSource$ = Rx.Observable.interval(1000)
+    .take(10)
+    .map(x => x * 2);
+
+mapSource$.subscribe(
+    x => console.log(x),
+    err => console.log(err),
+    () => console.log('completed')
+);
+
+// map
+const mapSource2$ = Rx.Observable.from(['tom', 'john', 'shown'])
+    .map(v => 'I am ' + v)
+    .map(x => x.toUpperCase());
+
+mapSource2$.subscribe(
+    x => console.log(x),
+    err => console.log(err),
+    () => console.log('completed')
+);
+
+// pluck
+const users = [
+    { name: "Tom", age: 50 },
+    { name: "John", age: 34 },
+    { name: "Shawn", age: 71 }
+];
+
+const pluckSource$ = Rx.Observable.from(users)
+    .pluck('name');
+
+pluckSource$.subscribe(
     x => console.log(x),
     err => console.log(err),
     () => console.log('completed')
