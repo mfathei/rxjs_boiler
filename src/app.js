@@ -262,3 +262,28 @@ pluckSource$.subscribe(
     err => console.log(err),
     () => console.log('completed')
 );
+
+
+// merge
+Rx.Observable.of('Hello')
+    .merge(Rx.Observable.of('World'))
+    .subscribe(x => console.log(x));
+
+Rx.Observable.interval(1000)
+    .merge(Rx.Observable.interval(500))
+    .take(25)
+    .subscribe(x => console.log(x));
+
+    const source1$ = Rx.Observable.interval(1000).map(x => 'Merge1: ' + x);
+    const source2$ = Rx.Observable.interval(500).map(x => 'Merge2: ' + x);
+
+    Rx.Observable.merge(source1$, source2$)
+    .take(25)
+    .subscribe(x => console.log(x));
+
+// concat
+const source3$ = Rx.Observable.range(0, 5).map(x => 'Source 1: ' + x);
+const source4$ = Rx.Observable.range(5, 5).map(x => 'Source 2: ' + x);
+
+Rx.Observable.concat(source3$, source4$)
+.subscribe(x => console.log(x));
